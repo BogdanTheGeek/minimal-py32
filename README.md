@@ -19,3 +19,6 @@ Set the desired microcontroller in the Makefile.
 You can copy, or create a symlink to, any file in `/lib` into `/src`.
 
 For anything else, use the reference manual.
+
+## Acknowledgements:
+ - [wagiminator](https://github.com/wagiminator/MCU-Templates)
