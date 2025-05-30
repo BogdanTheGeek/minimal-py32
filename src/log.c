@@ -80,8 +80,8 @@ void LOG_Init(const LogLevel_e level, const uint32_t *const systick)
     if (level != eLOG_LEVEL_NONE)
     {
         // clear the terminal
-        printf("\033c");
-        printf("Ready\r\n");
+        puts("\033c");
+        puts("Ready\r\n");
     }
 }
 
@@ -129,7 +129,7 @@ void LOG(const LogLevel_e level, const char *tag, char *format, ...)
     va_start(args, format);
     vprintf(format, args);
     va_end(args);
-    printf("\r\n%s", NORMAL);
+    puts("\r\n" NORMAL);
 }
 #endif
 

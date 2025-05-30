@@ -322,7 +322,11 @@ void RTC_setAlarm(uint32_t val);      // set RTC alarm value (default 0xffffffff
 #define DLY_us(n)         DLY_ticks((n)*DLY_US_TIME-1)  // delay n microseconds
 void DLY_ticks(uint32_t n);                             // delay n+1 clock cycles
 static inline void DLY_ms(uint32_t ms) {                // delay n milliseconds
-  while(ms--) DLY_us(1000);
+  while(ms--)
+  {
+     DLY_us(499);
+     DLY_us(499);
+  }
 }
 
 // ===================================================================================

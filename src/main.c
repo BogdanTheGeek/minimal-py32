@@ -40,6 +40,7 @@
 //------------------------------------------------------------------------------
 // Module static variables
 //------------------------------------------------------------------------------
+static uint32_t s_systick = 0;
 
 //------------------------------------------------------------------------------
 // Module static function prototypes
@@ -69,7 +70,7 @@ int main(void)
 {
     PIN_output(PB0);
 
-    LOG_Init(eLOG_LEVEL_DEBUG, (const uint32_t *)&SysTick->VAL);
+    LOG_Init(eLOG_LEVEL_DEBUG, &s_systick);
 
     LOGI(TAG, "Hello, PY32F0xx!");
 
@@ -100,6 +101,16 @@ int main(void)
         PIN_toggle(PB0);
         DLY_ms(1000);
     }
+}
+
+/**
+ * @brief  SysTick interrupt handler.
+ * @param  None
+ * @return None
+ */
+void SysTick_Handler(void)
+{
+   s_systick++;
 }
 
 //------------------------------------------------------------------------------
