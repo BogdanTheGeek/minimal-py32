@@ -4,7 +4,6 @@
 
 # Files and Folders
 TARGET  := firmware
-INCLUDE := include
 SOURCE  := src
 BIN     := bin
 
@@ -22,18 +21,19 @@ OBJDUMP := $(PREFIX)-objdump
 OBJSIZE := $(PREFIX)-size
 
 # Compiler Flags
-CFLAGS  := -g -Os -flto $(CPUARCH) -DF_CPU=$(F_CPU) -I$(INCLUDE) -I$(SOURCE) -I.
+CFLAGS  := -g -Os -flto $(CPUARCH) -DF_CPU=$(F_CPU) -I$(SOURCE) -I.
 CFLAGS  += -fdata-sections -ffunction-sections -fno-builtin -fno-common -Wall -D$(MODEL)
 LDFLAGS := -T$(LDSCRIPT) #-static -lc -lm -nostartfiles -nostdlib -lgcc
 LDFLAGS += -Wl,--gc-sections,--build-id=none --specs=nano.specs --specs=nosys.specs -Wl,--print-memory-usage
 CFILES  := $(wildcard ./*.c) $(wildcard $(SOURCE)/*.c) $(wildcard $(SOURCE)/*.S)
+HFILES  := $(wildcard ./*.h) $(wildcard $(SOURCE)/*.h)
 
 all:	$(BIN)/$(TARGET).lst $(BIN)/$(TARGET).map $(BIN)/$(TARGET).bin $(BIN)/$(TARGET).hex $(BIN)/$(TARGET).asm
 
 $(BIN):
 	@mkdir -p $(BIN)
 
-$(BIN)/$(TARGET).elf: $(CFILES)
+$(BIN)/$(TARGET).elf: $(CFILES) | $(HFILES) Makefile $(LDSCRIPT)
 	@echo "Building $(BIN)/$(TARGET).elf ..."
 	@mkdir -p $(BIN)
 	@$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
@@ -86,7 +86,7 @@ monitor:
 
 
 debug:
-	@$(PREFIX)-gdb $(BIN)/$(TARGET).elf 
+	@$(PREFIX)-gdb $(BIN)/$(TARGET).elf -ex="monitor reset halt"
 
 clean:
 	@echo "Cleaning all up ..."

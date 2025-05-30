@@ -51,6 +51,10 @@ typedef enum
 } SEMIHOST_Reason_e;
 
 //------------------------------------------------------------------------------
+// Module exported variables
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
 // Module exported functions
 //------------------------------------------------------------------------------
 /**
@@ -63,21 +67,16 @@ static inline int __attribute__((always_inline)) SEMIHOST_SysCall(SEMIHOST_Reaso
 {
     int value;
     __asm volatile(
-        "mov r0, %[rsn] \n" /* place semihost operation code into R0 */
-        "mov r1, %[arg] \n" /* R1 points to the argument array */
-        "bkpt 0xAB      \n" /* call debugger */
-        "mov %[val], r0 \n" /* debugger has stored result code in R0 */
+        "mov r0, %[rsn] \n" // place semihost operation code into R0
+        "mov r1, %[arg] \n" // R1 points to the argument array
+        "bkpt 0xAB      \n" // call debugger
+        "mov %[val], r0 \n" // debugger has stored result code in R0
 
-        : [val] "=r"(value)                                  /* outputs */
-        : [rsn] "r"(reason), [arg] "r"(arg)                  /* inputs */
-        : "r0", "r1", "r2", "memory"
-    );
-    return value; /* return result code, stored in R0 */
+        : [val] "=r"(value)                 // outputs
+        : [rsn] "r"(reason), [arg] "r"(arg) // inputs
+        : "r0", "r1", "r2", "memory");
+    return value; // return result code, stored in R0
 }
-
-//------------------------------------------------------------------------------
-// Module exported variables
-//------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
