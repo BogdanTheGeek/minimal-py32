@@ -22,3 +22,4 @@ For anything else, use the reference manual.
 
 ## Acknowledgements:
  - [wagiminator](https://github.com/wagiminator/MCU-Templates)
+ - [ErichStyger](https://github.com/ErichStyger/McuLib/blob/master/src/McuSemihost.h)
